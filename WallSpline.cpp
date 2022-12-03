@@ -8,7 +8,8 @@
 #include <chrono>
 #include <time.h>
 #include <ThirdParty/Imath/Deploy/Imath-3.1.3/include/Imath/ImathQuat.h>
-
+#include <string>
+#include "Kismet/KismetMathLibrary.h"
 #include "TableOfContents.h"
 #include "LoggingSystem.h"
 #include "SupportFunctionality.h"
@@ -81,9 +82,9 @@ AWallSpline::AWallSpline()
 	for (int i=0;i<number_of_walls;i++)
 	{
 		Loader<UStaticMesh> Loader(paths_to_walls[i]);
-		preloaded_walls.insert(std::pair(i,Loader.GetDataPtr()));
+		map_with_walls.Add(i,Loader.GetDataPtr());
 	}
-
+	
 	for(auto it = types_of_walls.cbegin(); it != types_of_walls.cend(); it++)
 	{
 		walls_indicies[it->second].push_back(it->first);
@@ -132,7 +133,7 @@ AWallSpline::AWallSpline()
 	for (int i=0;i<number_of_ribbons;i++)
 	{
 		Loader<UStaticMesh> Loader(paths_to_ribbons[i]);
-		preloaded_ribbons.insert(std::pair(i,Loader.GetDataPtr()));
+		map_with_ribbons.Add(i,Loader.GetDataPtr());
 	}
 	
 }
@@ -158,45 +159,49 @@ void AWallSpline::OnConstruction(const FTransform& Transform)
 	std::vector<FVector> spline_local_points(spline_ptr->GetNumberOfSplinePoints());
 	for (int i =0 ; i < spline_local_points.size(); i++)
 	{
-		spline_local_points[i] = spline_ptr->GetLocationAtSplinePoint(i,ESplineCoordinateSpace::Local);
+		spline_local_points[i] = spline_ptr->GetLocationAtSplinePoint(i,ESplineCoordinateSpace::World);
 	}
 
 	gen_for_walls_selection = std::mt19937(rd_for_walls_selection());
 	for(auto it = walls_indicies.cbegin();it!=walls_indicies.cend();it++)
 	{
-		distrs_for_walls_selection.insert(std::pair(it->first,std::uniform_int_distribution<>(0,it->second.size())));
+		distrs_for_walls_selection.insert(std::pair(it->first,std::uniform_int_distribution<>(0,it->second.size()-1)));
 	}
 
 	for (int i=0; i < (spline_local_points.size()-1);i++)
 	{
-		UStaticMeshComponent* static_mesh1 =  NewObject<UStaticMeshComponent>(this,UStaticMeshComponent::StaticClass());
+		UStaticMeshComponent* static_mesh1 = NewObject<UStaticMeshComponent>(this,UStaticMeshComponent::StaticClass());
 		static_mesh1->RegisterComponentWithWorld(GetWorld());
-		static_mesh1->AttachToComponent(spline_ptr,FAttachmentTransformRules::KeepRelativeTransform);
-
+		
 		FVector direction = spline_local_points[i+1]-spline_local_points[i];
 		float norm = direction.Size();
 		direction = direction/norm;
 		
 		
 		int index_of_column = select_random_wall_by_type("column");
-		if (preloaded_walls[index_of_column])
+		if (map_with_walls[index_of_column])
 		{
-			static_mesh1->SetStaticMesh(preloaded_walls[index_of_column]);
+			static_mesh1->SetStaticMesh(map_with_walls[index_of_column]);
 		}
-		static_mesh1->SetRelativeLocation(spline_local_points[i]);
-		static_mesh1->SetRelativeRotation(FRotator(0,0,0));
+		static_mesh1->SetWorldLocation(spline_local_points[i]);
+		static_mesh1->SetWorldRotation(FRotator(0,0,0));
 
 		UStaticMeshComponent* static_mesh2 =  NewObject<UStaticMeshComponent>(this,UStaticMeshComponent::StaticClass());
 		static_mesh2->RegisterComponentWithWorld(GetWorld());
-		static_mesh2->AttachToComponent(spline_ptr,FAttachmentTransformRules::KeepRelativeTransform);
+
 		int index_of_wall = select_random_wall_by_type("wall");
-		if (preloaded_walls[index_of_wall])
+		if (map_with_walls[index_of_wall])
 		{
-			static_mesh2->SetStaticMesh(preloaded_walls[index_of_wall]);
+			static_mesh2->SetStaticMesh(map_with_walls[index_of_wall]);
 		}
-		static_mesh2->SetRelativeLocation(spline_local_points[i]);
-		static_mesh2->SetRelativeRotation(FRotator(0,0,0));
-		
+		static_mesh2->SetWorldLocation(spline_local_points[i]+direction*linear_sizes_of_walls[index_of_wall].Y/2.0+direction*linear_sizes_of_walls[index_of_column].Y/2.0);
+
+
+		static_mesh2->SetWorldRotation(UKismetMathLibrary::MakeRotFromX(direction));
+
+		static_mesh2->AddLocalRotation(FRotator(0,90,0));
+
+
 		
 	}
 	

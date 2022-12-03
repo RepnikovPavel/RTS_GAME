@@ -47,9 +47,12 @@ public:
 	UPROPERTY(EditAnywhere)
 	USplineComponent* spline_ptr;
 
-private:
-	std::map<int, UStaticMesh*> preloaded_walls;
-	std::map<int, UStaticMesh*> preloaded_ribbons;
+	UPROPERTY(EditAnywhere,Category="meshes")
+	TMap<int, UStaticMesh*> map_with_walls;
+
+	UPROPERTY(EditAnywhere,Category="meshes")
+	TMap<int, UStaticMesh*> map_with_ribbons;
+
 public:
 	virtual void OnConstruction(const FTransform& Transform) override;
 	
