@@ -51,5 +51,4 @@ public:
 	CoreState WhiteState;
 	CoreState GreenState;
 	CoreState CurrentState;
-
 };
