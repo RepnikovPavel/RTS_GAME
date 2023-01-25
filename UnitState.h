@@ -4,44 +4,83 @@
 
 #include "CoreMinimal.h"
 
-/**
- * 
- */
 
 
 struct CoreState
 {
-	float HP;
-	float MP;
-	float DP;
-	float HP_regeneration;
-	float MP_regeneration;
-	float speed_HP_regeneration;
-	float speed_MP_regeneration;
+	float physical_attack;					// add
+	float magic_attack;						// add
+	float measure_physical_protection;		// add
+	float measure_magic_protection;			// add
 	
-	float move_speed;
-	float flight_speed;
-	float soaring_speed;
+	float measure_magic_accuracy;			// add
+	float measure_physical_accuracy;		// add
 	
-	float attack_speed;
-	float interval_between_attacks;
-	float physical_attack;
-	float physical_accuracy;
-	float physical_crit_pr;
-	float physical_crit_mul;
-	float magic_attack;
-	float magic_accuracy;
-	float magic_crit;
-	float magic_crit_damage;
-	float power_of_healing;
+	float measure_physical_dodge;			// add
+	float measure_magic_dodge;				// add
 	
-	float physical_protection;
-	float physical_crit_protection;
-	float physical_dodge;
-	float magic_protection;
-	float magic_crit_protection;
-	float magic_dodge;
+	float HP;								// ag
+	float MP;								// ag
+	float DP;								// ag
+	float speed_HP_regeneration;			// ag
+	float speed_MP_regeneration;			// ag
+	
+	float move_speed;						// ag
+	float flight_speed;						// ag
+	float soaring_speed;					// ag
+
+	float healing_mul;						// ag
+	float power_of_healing;					// add
+	float power_of_regeneration;			// add
+	
 };
+
+struct PHYSICAL_ATTACK_MODIFIER_crit
+{
+	float physical_crit_mul;				// ag
+	float physical_crit_pr;					// ag
+};
+struct STATIC_PHYSICAL_ATTACK_MODIFIER_attack
+{
+	float physical_attack;					// add
+};
+
+struct STATIC_PHYSICAL_PROTECTION_MODIFIER_crit
+{
+	float physical_crit_protection;			// add
+};
+struct PHYSICAL_PROTECTION_MODIFIER_dodge
+{
+	float measure_physical_dodge;			// add
+};
+struct STATIC_PHYSICAL_PROTECTION_MODIFIER_measure_physical_protection
+{
+	float measure_physical_protection;		// add
+};
+
+struct MAGIC_ATTACK_MODIFIER_crit
+{
+	float magic_crit_mul;					// ag
+	float magic_crit_pr;					// ag
+};
+struct STATIC_MAGIC_ATTACK_MODIFIER_attack
+{
+	float magic_attack;					// add
+};
+
+struct STATIC_MAGIC_PROTECTION_MODIFIER_measure_physical_protection
+{
+	float measure_magic_protection;		// add
+};
+struct STATIC_MAGIC_PROTECTION_MODIFIER_crit
+{
+	float magic_crit_protection;			// add
+};
+struct MAGIC_PROTECTION_MODIFIER_dodge
+{
+	float measure_magic_dodge;			// add
+};
+
 
 class RTS_API UnitState
 {
@@ -51,4 +90,16 @@ public:
 	CoreState WhiteState;
 	CoreState GreenState;
 	CoreState CurrentState;
+	// items vector
+	// abilities vector
+	// auras vector
+	//
+	
+	
+	void SendAttack()
+	{
+		
+	};
+	void AcceptAttack()
+	{};
 };
