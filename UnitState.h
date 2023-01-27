@@ -40,12 +40,12 @@ struct PHYSICAL_ATTACK_MODIFIER_crit
 	float physical_crit_mul;				// ag
 	float physical_crit_pr;					// ag
 };
-struct STATIC_PHYSICAL_ATTACK_MODIFIER_attack
+struct PHYSICAL_ATTACK_MODIFIER_attack
 {
 	float physical_attack;					// add
 };
 
-struct STATIC_PHYSICAL_PROTECTION_MODIFIER_crit
+struct PHYSICAL_PROTECTION_MODIFIER_crit
 {
 	float physical_crit_protection;			// add
 };
@@ -53,7 +53,7 @@ struct PHYSICAL_PROTECTION_MODIFIER_dodge
 {
 	float measure_physical_dodge;			// add
 };
-struct STATIC_PHYSICAL_PROTECTION_MODIFIER_measure_physical_protection
+struct PHYSICAL_PROTECTION_MODIFIER_measure_physical_protection
 {
 	float measure_physical_protection;		// add
 };
@@ -63,22 +63,90 @@ struct MAGIC_ATTACK_MODIFIER_crit
 	float magic_crit_mul;					// ag
 	float magic_crit_pr;					// ag
 };
-struct STATIC_MAGIC_ATTACK_MODIFIER_attack
+struct MAGIC_ATTACK_MODIFIER_attack
 {
-	float magic_attack;					// add
+	float magic_attack;						// add
 };
 
-struct STATIC_MAGIC_PROTECTION_MODIFIER_measure_physical_protection
+struct MAGIC_PROTECTION_MODIFIER_measure_physical_protection
 {
-	float measure_magic_protection;		// add
+	float measure_magic_protection;			// add
 };
-struct STATIC_MAGIC_PROTECTION_MODIFIER_crit
+struct MAGIC_PROTECTION_MODIFIER_crit
 {
 	float magic_crit_protection;			// add
 };
 struct MAGIC_PROTECTION_MODIFIER_dodge
 {
-	float measure_magic_dodge;			// add
+	float measure_magic_dodge;				// add
+};
+
+struct MODIFIER_HP_abs_value
+{
+	float HP;								// add
+};
+struct MODIFIER_HP_mul_value
+{
+	float HP_mul;							// add
+};
+
+struct MODIFIER_MP_abs_value
+{
+	float MP;								// add
+};
+struct MODIFIER_MP_mul_value
+{
+	float MP_mul;							// add
+};
+struct MODIFIER_DP_abs_value
+{
+	float DP;								// add
+};
+struct MODIFIER_DPP_mul_value
+{
+	float DP_mul;							// add
+};
+
+
+struct MOVE_MODIFIER_move_speed_abs_value
+{
+	float move_speed;						// ag
+};
+struct MOVE_MODIFIER_move_speed_mul_value
+{
+	float move_speed_mul;					// ag
+};
+
+struct MOVE_MODIFIER_flight_speed_abs_value
+{
+	float flight_speed;						// ag
+};
+struct MOVE_MODIFIER_flight_speed_mul_value
+{
+	float flight_speed_mul;					// ag
+};
+
+struct MOVE_MODIFIER_soaring_speed_abs_value
+{
+	float soaring_speed;					// ag
+};
+struct MOVE_MODIFIER_soaring_speed_mul_value
+{
+	float soaring_speed_mul;				// ag
+};
+
+struct HEALING_MODIFIER_power_of_healing
+{
+	float power_of_healing;					// add
+};
+struct HEALING_MODIFIER_healing_mul
+{
+	float healing_mul;						// ag
+};
+
+struct HEALING_MODIFIER_power_of_regeneration
+{
+	float power_of_regeneration;			// add
 };
 
 
@@ -93,8 +161,6 @@ public:
 	// items vector
 	// abilities vector
 	// auras vector
-	//
-	
 	
 	void SendAttack()
 	{
