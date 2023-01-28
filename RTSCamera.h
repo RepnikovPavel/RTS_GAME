@@ -46,7 +46,7 @@ public:
 	float CameraAngle=60.0f;
 
 	UPROPERTY(EditAnywhere)
-	float CameraSpeed=10.0f;
+	float CameraSpeed2D=10.0f;
 	
 	UPROPERTY(EditAnywhere)
 	float SpringArmLagSpeed=10.0f;
@@ -58,6 +58,13 @@ public:
 	UPROPERTY(EditAnywhere)
 	float delta_y=0.02;
 private:
-	void UpdateCamePos(FVector2d mouse_pos,FVector2d viewport_size);
+	void SetUpPlayerController();
+	APlayerController* PC_of_this_client;
+private:
 
+	void UpdateCamePos(FVector2d mouse_pos);
+public:
+	void AcceptMessageWithCurrentViewPortSize(FVector2d new_vieport_size);
+private:
+	FVector2d current_view_port_size;
 };
