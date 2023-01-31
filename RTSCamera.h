@@ -6,6 +6,8 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "LoggingSystem.h"
+#include "MyPaths.h"
 #include "RTSCamera.generated.h"
 
 UCLASS()
@@ -40,7 +42,7 @@ private:
 	
 public:
 	UPROPERTY(EditAnywhere)
-	float SpringArmLength=500.0f;
+	float SpringArmLength=1000.0f;
 
 	UPROPERTY(EditAnywhere)
 	float CameraAngle=60.0f;
@@ -64,7 +66,11 @@ private:
 
 	void UpdateCamePos(FVector2d mouse_pos);
 public:
-	void AcceptMessageWithCurrentViewPortSize(FVector2d new_vieport_size);
+	void AcceptMessageWithCurrentViewPortSize(FVector2d new_viewport_size);
 private:
 	FVector2d current_view_port_size;
+private:
+	void SetUpLog();
+	void WriteToLog(std::string message_to_log);
+	std::string LogPath;
 };

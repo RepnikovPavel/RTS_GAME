@@ -3,10 +3,10 @@
 
 #include "RTSCamera.h"
 
+#include <fstream>
+#include <chrono>
 #include "Kismet/GameplayStatics.h"
 
-#define M_AXM_MoveCameraX			"MoveCameraX"
-#define M_AXM_MoveCameraY			"MoveCameraY"
 
 
 // Sets default values
@@ -27,17 +27,22 @@ ARTSCamera::ARTSCamera()
 // Called when the game starts or when spawned
 void ARTSCamera::BeginPlay()
 {
+	// SetUpLog();
+	
 	SetUpPlayerController();
 	
 	Super::BeginPlay();
 
-	SetSpringArmVariables(FVector(0.0f,0.0f,50.0f),FRotator(-30.0f,0.0f,0.0f),
+	SetSpringArmVariables(FVector(0.0f,0.0f,50.0f),FRotator(-CameraAngle,0.0f,0.0f),
 		SpringArmLength,SpringArmLagSpeed);
 
 	// emulation of accepting message with viewport size
 	FVector2d new_viewport_size;
-	GEngine->GameViewport->GetViewportSize(new_viewport_size);
+	// GEngine->GameViewport->GetViewportSize(new_viewport_size);
+	new_viewport_size.X = GSystemResolution.ResX;
+	new_viewport_size.Y =GSystemResolution.ResY;
 	AcceptMessageWithCurrentViewPortSize(new_viewport_size);
+
 }
 
 // Called every frame
@@ -53,7 +58,6 @@ void ARTSCamera::Tick(float DeltaTime)
 void ARTSCamera::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
 void ARTSCamera::SetSpringArmVariables(const FVector& RelLocation, const FRotator& RelRotation, const float ArmLength,
@@ -86,7 +90,15 @@ void ARTSCamera::UpdateCamePos(FVector2d mouse_pos)
 	float div_y = pos_y/h_y;
 	
 	float world_delta_seconds= GetWorld()->GetDeltaSeconds();
-	float undirectional_offset_2D = world_delta_seconds*CameraSpeed2D;  
+	float undirectional_offset_2D = world_delta_seconds*CameraSpeed2D;
+
+	// WriteToLog(std::string("viewport size x ")+std::to_string(h_x));
+	// WriteToLog(std::string("viewport size y ")+std::to_string(h_y));
+	// WriteToLog(std::string("mouse pos x ")+std::to_string(pos_x));
+	// WriteToLog(std::string("mouse pos y ")+std::to_string(pos_y));
+	// WriteToLog(std::string("div x ")+std::to_string(div_x));
+	// WriteToLog(std::string("div y ")+std::to_string(div_y));
+	
 	//mouse in left screen area
 	if (div_x <= delta_x)
 	{
@@ -109,8 +121,27 @@ void ARTSCamera::UpdateCamePos(FVector2d mouse_pos)
 	}
 }
 
-void ARTSCamera::AcceptMessageWithCurrentViewPortSize(FVector2d new_vieport_size)
+void ARTSCamera::AcceptMessageWithCurrentViewPortSize(FVector2d new_viewport_size)
 {
-	current_view_port_size = new_vieport_size;
+	current_view_port_size = new_viewport_size;
+}
+
+void ARTSCamera::SetUpLog()
+{
+	LogPath = std::string(M_LOG_PATH_RTS_CAMERA_CLASS);
+	auto start_time = std::chrono::system_clock::now();
+	std::time_t time_to_log_file = std::chrono::system_clock::to_time_t(start_time);
+	std::ofstream _EventLog(LogPath,std::ios_base::trunc);
+	char time_str[26];
+	ctime_s(time_str,sizeof(time_str),&time_to_log_file);
+	_EventLog << time_str << std::endl;
+	_EventLog.close();
+}
+
+void ARTSCamera::WriteToLog(std::string message_to_log)
+{
+	std::ofstream _EventLog(LogPath,std::ios_base::app);
+	_EventLog << message_to_log << std::endl;
+	_EventLog.close();
 }
 
