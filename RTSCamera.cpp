@@ -86,6 +86,16 @@ void ARTSCamera::UpdateCamePos(FVector2d mouse_pos)
 	float h_x = current_view_port_size.X;
 	float h_y = current_view_port_size.Y;
 
+	if (h_x==0.0 || h_y ==0.0)
+	{
+		return;
+	}
+	
+	if ((pos_x < 0.0 || pos_x > h_x) || ( pos_y < 0.0 || pos_y > h_y))
+	{
+		return;
+	}
+	
 	float div_x = pos_x/h_x;
 	float div_y = pos_y/h_y;
 	

@@ -48,7 +48,7 @@ public:
 	float CameraAngle=60.0f;
 
 	UPROPERTY(EditAnywhere)
-	float CameraSpeed2D=10.0f;
+	float CameraSpeed2D=100.0f;
 	
 	UPROPERTY(EditAnywhere)
 	float SpringArmLagSpeed=10.0f;
