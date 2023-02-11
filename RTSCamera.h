@@ -8,7 +8,19 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "LoggingSystem.h"
 #include "MyPaths.h"
+#include "ActionAndAxisMappings.h"
 #include "RTSCamera.generated.h"
+
+enum RTSCameraState
+{
+	the_player_can_control,
+	the_player_cannot_control
+};
+enum RTSCameraMovementLogicState
+{
+	following_the_cursor,
+	dragging_by_hand
+};
 
 UCLASS()
 class RTS_API ARTSCamera : public APawn
@@ -59,12 +71,23 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	float delta_y=0.02;
+public:
+	UFUNCTION(BlueprintCallable)
+	void SetPlayerController(APlayerController* new_pc);
 private:
-	void SetUpPlayerController();
 	APlayerController* PC_of_this_client;
-private:
 
-	void UpdateCamePos(FVector2d mouse_pos);
+private:
+	void UpdateCamePos_following_the_cursor(FVector2d mouse_pos);
+
+	
+	void UpdateCamePos_dragging_by_hand(FVector2d delta_mouse_pos);
+	FVector3d last_pos_of_mouse_cursor_in_scene;
+	FVector3d last_dir_of_mouse_cursor_in_scene;
+public:
+	UPROPERTY(BlueprintReadWrite)
+	float camera_movement_mul_dragging_by_hand = 10.0f;
+	
 public:
 	void AcceptMessageWithCurrentViewPortSize(FVector2d new_viewport_size);
 private:
@@ -73,4 +96,25 @@ private:
 	void SetUpLog();
 	void WriteToLog(std::string message_to_log);
 	std::string LogPath;
+private:
+	
+	RTSCameraState UserInputState = RTSCameraState::the_player_cannot_control;
+
+	// state switches of the user input state machine
+public:
+	UFUNCTION(BlueprintCallable)
+	void SwitchTo_the_player_can_control_camera();
+	
+	UFUNCTION(BlueprintCallable)
+	void SwitchTo_the_player_cannot_control_camera();
+
+private:
+	RTSCameraMovementLogicState CameraMovementLogicState = RTSCameraMovementLogicState::following_the_cursor;
+
+	void Switch_CameraMovementStateTo_following_the_cursor();
+	void Switch_CameraMovementStateTo_dragging_by_hand();
+	
 };
+
+
+
