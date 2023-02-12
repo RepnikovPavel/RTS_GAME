@@ -49,7 +49,7 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* CameraComponentPtr; 
 
-	void SetSpringArmVariables(const FVector& RelLocation,const FRotator& RelRotation,
+	void SetSpringArmVariables(const FVector& LocalLocation,const FRotator& LocalRotation,
 		const float ArmLength, const float CameraLagSpeed);
 	
 public:
@@ -60,7 +60,7 @@ public:
 	float CameraAngle=60.0f;
 
 	UPROPERTY(EditAnywhere)
-	float CameraSpeed2D=100.0f;
+	float CameraSpeed2D=500.0f;
 	
 	UPROPERTY(EditAnywhere)
 	float SpringArmLagSpeed=10.0f;
@@ -81,9 +81,16 @@ private:
 	void UpdateCamePos_following_the_cursor(FVector2d mouse_pos);
 
 	
-	void UpdateCamePos_dragging_by_hand(FVector2d delta_mouse_pos);
-	FVector3d last_pos_of_mouse_cursor_in_scene;
-	FVector3d last_dir_of_mouse_cursor_in_scene;
+	void UpdateCamePos_dragging_by_hand(FVector2d delta_mouse_pos,FVector2d mouse_pos);
+	FVector2d last_pos_of_mouse_cursor_in_screen;
+	FVector2d n_actor_forward_vetor_XY_projection_word_coords;
+	void UpdateCurrent_actor_forward_vetor_XY_projection();
+public:
+	UPROPERTY(BlueprintReadWrite)
+	float dragging_by_hand_step_multiplier=1550.0f;
+
+
+	
 public:
 	UPROPERTY(BlueprintReadWrite)
 	float camera_movement_mul_dragging_by_hand = 10.0f;
@@ -98,7 +105,7 @@ private:
 	std::string LogPath;
 private:
 	
-	RTSCameraState UserInputState = RTSCameraState::the_player_cannot_control;
+	RTSCameraState UserInputState;
 
 	// state switches of the user input state machine
 public:
@@ -109,12 +116,13 @@ public:
 	void SwitchTo_the_player_cannot_control_camera();
 
 private:
-	RTSCameraMovementLogicState CameraMovementLogicState = RTSCameraMovementLogicState::following_the_cursor;
+	RTSCameraMovementLogicState CameraMovementLogicState;
 
 	void Switch_CameraMovementStateTo_following_the_cursor();
 	void Switch_CameraMovementStateTo_dragging_by_hand();
 	
 };
+
 
 
 
