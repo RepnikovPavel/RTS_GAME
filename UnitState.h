@@ -6,6 +6,19 @@
 
 
 
+struct UnitTypeInGameLogic
+{
+	bool is_selectable;
+	bool control_is_selectable;
+	bool communication_is_selectable;
+	bool abilities_is_it_possible_to_select_a_unit_for_magical_interaction;
+	bool abilities_is_it_possible_to_select_a_unit_for_physical_interaction;
+	bool view_its_state_through_the_visualization_layer_is_selectable;
+	bool navigation_is_selectable;
+	bool is_the_object_geometrically_changeable;
+	bool is_capable_of_physical_simulation;
+};
+
 struct CoreState
 {
 	float physical_attack;					// add

@@ -8,7 +8,6 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "LoggingSystem.h"
 #include "MyPaths.h"
-#include "ActionAndAxisMappings.h"
 #include "RTSCamera.generated.h"
 
 enum RTSCameraState

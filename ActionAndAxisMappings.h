@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 
 #define M_ACM_MoveCameraByHand					"MoveCameraByHand"
+#define M_ACM_LeftMB							"LeftMB"
+#define M_ACM_RightMB							"RightMB"
 
 /**
  * 
