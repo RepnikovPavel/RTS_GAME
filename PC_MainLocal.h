@@ -18,6 +18,13 @@ class RTS_API APC_MainLocal : public APlayerController
 	GENERATED_BODY()
 	
 	virtual void SetupInputComponent() override;
+
+public:
+	// UFUNCTION(BlueprintCallable)
+	// void SendActionToSubscriber_MoveCameraByFollowingToMouse();
+	//
+	// UFUNCTION(BlueprintCallable)
+	// void SendActionToSubscriber_MoveCameraByDraggingByHand();
 	
 	
 };

@@ -5,8 +5,7 @@
 #include "CoreMinimal.h"
 
 
-
-struct UnitTypeInGameLogic
+struct UnitDescriptionForInteractionInGameLogic
 {
 	bool is_selectable;
 	bool control_is_selectable;
