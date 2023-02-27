@@ -1,0 +1,5 @@
+download sqlite header and dll and def files
+open developer command prompt for VS
+cd C:\unreal_projects\RTS\SQLite_files
+lib /DEF:sqlite3.def /OUT:sqlite3.lib /MACHINE:x64
+copy files sqlite3.dll and sqlite3.lib to source dir of project
