@@ -24,8 +24,9 @@ void AInteractableScene3Dunit::SetUp_current_state_in_game_logic_FromClassFields
 	current_state_in_game_logic.is_capable_of_physical_simulation = is_capable_of_physical_simulation;
 }
 
-void AInteractableScene3Dunit::SetUp_current_state_in_game_logic_FromConfigFile(FString PathToConfig)
+void AInteractableScene3Dunit::SetUp_current_state_in_game_logic_FromConfigFile(FString path_to_config_)
 {
+	const auto ptr_to_TCHAR = TCHAR_TO_ANSI(*path_to_config_);
 	
 }
 

@@ -19,7 +19,7 @@ public:
 
 public:
 	void SetUp_current_state_in_game_logic_FromClassFields();
-	void SetUp_current_state_in_game_logic_FromConfigFile(FString PathToConfig);
+	void SetUp_current_state_in_game_logic_FromConfigFile(FString path_to_config_);
 	void SetUp_current_state_in_game_logic_FromConfigFileByClassField();
 	
 private:
