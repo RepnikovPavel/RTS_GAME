@@ -3,3 +3,20 @@ open developer command prompt for VS
 cd C:\unreal_projects\RTS\SQLite_files
 lib /DEF:sqlite3.def /OUT:sqlite3.lib /MACHINE:x64
 copy files sqlite3.dll and sqlite3.lib to source dir of project
+
+in project_name.build.cs file:
+
+// copy using full path to dll file where base module folder is ModuleDirectory
+RuntimeDependencies.Add("$(BinaryOutputDir)/sqlite3.dll", Path.Combine(ModuleDirectory, "external_bin", "sqlite3.dll"));
+
+PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "external_bin", "sqlite3.lib"));
+
+PublicDelayLoadDLLs.Add("sqlite3.dll");
+
+for using sqlite:
+download BS Browser sqlite
+or 
+download 
+sqlite-tools
+and add path to sqlite3.exe base folder to system path
+
