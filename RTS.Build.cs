@@ -24,10 +24,6 @@ public class RTS : ModuleRules
 		// WindowsCompiler.  set up compiler y need
 		
 		
-		
-		
-		
-		
 		// WindowsCompiler
 		
 		// install armadillo 
