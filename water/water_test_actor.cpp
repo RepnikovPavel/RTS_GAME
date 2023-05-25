@@ -7,6 +7,7 @@
 #include "Components/HierarchicalInstancedStaticMeshComponent.h"
 
 
+
 Awater_test_actor::Awater_test_actor()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -36,7 +37,12 @@ void Awater_test_actor::Tick(float DeltaTime)
 }
 
 void Awater_test_actor::OnConstruction(const FTransform& Transform)
-{
+{	// TODO : cleanup old parts of static mesh
+	// NOTE: some notes about cleanup old parts of ie-ly insta-ed static mesh
+	// https://forums.unrealengine.com/t/using-instanced-static-meshes-in-c/366163/6
+	// but it don't work
+
+	
 	Super::OnConstruction(Transform);
 
 	Lx = bx-ax;
